@@ -1,26 +1,407 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #f3f4ef;
+  --ink: #20241f;
+  --muted: #777d73;
+  --line: #dfe2d9;
+  --forest: #24382e;
+  --lime: #c5dc88;
+  --signal: #b44f3d;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.88fr) minmax(380px, 1.12fr);
+  min-height: 100svh;
+  gap: 22px;
+  padding: 22px;
+  background-image: linear-gradient(#e7e9e1 1px, transparent 1px), linear-gradient(90deg, #e7e9e1 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.identity-panel,
+.session-panel {
+  min-height: calc(100svh - 44px);
+}
+
+.identity-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 68px);
+  color: #f3f4ef;
+  background-color: var(--forest);
+  background-image: linear-gradient(137deg, transparent 52%, #ffffff0b 52%, #ffffff0b 52.2%, transparent 52.2%), linear-gradient(43deg, transparent 67%, #ffffff0b 67%, #ffffff0b 67.2%, transparent 67.2%);
+  animation: reveal 420ms ease-out both;
+}
+
+.identity-mark {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.identity-mark span {
+  padding: 0 5px;
+  color: var(--lime);
+}
+
+.identity-copy {
+  margin: 48px 0;
+}
+
+.eyebrow,
+.session-topline,
+.identity-footer,
+.session-environment {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  color: #829080;
+}
+
+.identity-copy .eyebrow {
+  color: var(--lime);
+}
+
+.identity-copy h1 {
+  margin: 0;
+  font-size: clamp(52px, 6vw, 88px);
+  font-weight: 550;
+  line-height: 0.98;
+}
+
+.identity-caption {
+  margin: 24px 0 0;
+  color: #bdc8bc;
+  font-size: 15px;
+}
+
+.identity-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #c1cabe;
+}
+
+.status-light {
+  width: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 0 4px #c5dc8822;
+}
+
+.identity-timezone {
+  margin-left: auto;
+  color: #829080;
+}
+
+.session-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(25px, 5vw, 64px);
+  background: #fbfcf8;
+  animation: reveal 420ms 70ms ease-out both;
+}
+
+.session-topline,
+.session-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+}
+
+.session-environment {
+  color: #687e43;
+}
+
+.session-content {
+  width: 100%;
+  max-width: 440px;
+  margin: 54px auto;
+}
+
+.session-content h2 {
+  margin: 0;
+  font-size: clamp(34px, 4vw, 49px);
+  font-weight: 550;
+  line-height: 1.08;
+}
+
+.session-description {
+  margin: 18px 0 36px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.sign-in-form {
+  display: grid;
+  gap: 10px;
+}
+
+.sign-in-form label {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sign-in-form input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 13px;
+  border: 1px solid #cdd2c8;
+  border-radius: 3px;
+  outline: none;
+  background: #fff;
+  color: var(--ink);
+}
+
+.sign-in-form input:focus {
+  border-color: #647b4b;
+  box-shadow: 0 0 0 3px #647b4b1c;
+}
+
+.primary-button,
+.secondary-button {
+  display: flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.primary-button {
+  background: var(--forest);
+  color: white;
+}
+
+.primary-button:hover:not(:disabled) {
+  background: #30483a;
+}
+
+.primary-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.secondary-button {
+  width: 100%;
+  justify-content: center;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+}
+
+.profile-details {
+  margin: 32px 0 20px;
+  border-top: 1px solid var(--line);
+}
+
+.profile-details div {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.7fr) minmax(0, 1.3fr);
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.profile-details dt {
+  color: var(--muted);
+}
+
+.profile-details dd {
+  overflow-wrap: anywhere;
+  margin: 0;
+  font-weight: 600;
+}
+
+.access-note,
+.error-message {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.access-note {
+  color: #52683b;
+}
+
+.error-message {
+  color: var(--signal);
+}
+
+.session-footer {
+  font-size: 12px;
+}
+
+.printable-truck-label {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  padding: 24px;
+  background: #fff;
+}
+
+.truck-label-sheet {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.truck-label-sheet img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.label-value {
+  position: absolute;
+  overflow: hidden;
+  color: #111;
+  font-size: clamp(12px, 2.8vw, 36px);
+  font-weight: 700;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.label-plate {
+  top: 5.4%;
+  left: 63%;
+  width: 33%;
+}
+
+.label-driver,
+.label-dock,
+.label-dock-time,
+.label-start-loading {
+  top: 21.5%;
+  width: 23%;
+}
+
+.label-driver { left: 1.2%; }
+.label-dock { left: 25%; }
+.label-dock-time { left: 50%; }
+.label-start-loading { left: 74.7%; }
+
+.truck-label-print-button {
+  min-height: 44px;
+  margin-top: 18px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--forest);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 650;
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 760px) {
+  .workspace {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .identity-panel {
+    min-height: 240px;
+    padding: 24px;
+  }
+
+  .identity-copy {
+    margin: 34px 0 20px;
+  }
+
+  .identity-copy h1 {
+    font-size: 48px;
+  }
+
+  .identity-caption {
+    margin-top: 12px;
+    font-size: 13px;
+  }
+
+  .session-panel {
+    min-height: 510px;
+    padding: 24px;
+  }
+
+  .session-content {
+    margin: 42px auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .printable-truck-label,
+  .printable-truck-label * {
+    visibility: visible;
+  }
+
+  .printable-truck-label {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .truck-label-print-button {
+    display: none;
+  }
 }

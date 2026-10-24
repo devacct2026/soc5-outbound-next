@@ -13,14 +13,19 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.setGlobalPrefix('api');
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/api/health (GET) is public', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/api/health')
       .expect(200)
-      .expect('Hello World!');
+      .expect({ status: 'ok', service: 'soc5-outbound-api' });
+  });
+
+  it('/api/auth/me (GET) requires a login', () => {
+    return request(app.getHttpServer()).get('/api/auth/me').expect(401);
   });
 
   afterEach(async () => {
